@@ -1,0 +1,86 @@
+
+### Solution
+
+This code defines a function `makeFancyString` that takes a string `s` as input and returns a "fancy" string where no character appears three times consecutively. The function achieves this by removing the minimum number of characters needed to satisfy the "fancy" string condition.
+
+### Let's break down the code step-by-step:
+
+#### Function Signature and Initialization
+```javascript
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var makeFancyString = function(s) {
+    let result = '';  // String to store result
+    let count = 1;    // Start with 1 for the first character
+```
+
+- The `makeFancyString` function takes one parameter, `s`, which is a string containing lowercase English letters.
+- The function initializes an empty string `result` to build and store the final "fancy" string.
+- A variable `count` is initialized to `1` to keep track of the number of consecutive occurrences of the current character.
+
+#### Looping through the String
+```javascript
+    for (let i = 1; i < s.length; i++) {
+        // Check if the current character is the same as the previous
+        if (s[i] === s[i - 1]) {
+            count++;
+        } else {
+            count = 1;  // Reset count if it's a new character
+        }
+```
+
+- The `for` loop starts from the second character (`i = 1`) and iterates through each character in the string.
+- For each character, the code checks if it is the same as the previous character (`s[i - 1]`).
+  - If the current character is the same as the previous one, `count` is incremented by 1.
+  - If the current character is different from the previous one, `count` is reset to `1` since a new sequence has started.
+
+#### Adding Characters to the Result
+```javascript
+        // Append the character if it doesn't form a triplet
+        if (count < 3) {
+            result += s[i];
+        }
+    }
+```
+
+- Inside the loop, we check if `count` is less than `3`.
+- If `count` is less than `3`, it means that adding the current character will not create three consecutive identical characters, so we append it to `result`.
+- This ensures that we only add characters that help maintain the "fancy" condition.
+
+#### Handling the First Character
+```javascript
+    // Prepend the first character, which is always part of the result
+    return s[0] + result;
+};
+```
+
+- After the loop, we prepend `s[0]` to `result` before returning it. This is because the first character is always included in the "fancy" string.
+- Finally, we return the `result` string, which now satisfies the "fancy" string condition.
+
+### Example Walkthrough
+
+#### Example 1
+- **Input**: `s = "leeetcode"`
+- **Process**:
+  1. Start with the first character `l` and add it to `result`.
+  2. Encounter two `e`s in a row: Add both to `result` (total of 2 `e`s).
+  3. Encounter the third `e`: Skip it to avoid three consecutive `e`s.
+  4. Continue adding `t`, `c`, `o`, `d`, `e` to `result`.
+- **Result**: `result = "leetcode"`
+
+#### Example 2
+- **Input**: `s = "aaabaaaa"`
+- **Process**:
+  1. Start with the first character `a` and add it to `result`.
+  2. Encounter two more `a`s in a row: Add the first two to `result`, then skip the third to avoid three consecutive `a`s.
+  3. Add `b`.
+  4. Start another sequence of `a`s: Add the first two `a`s after `b` and skip the third `a`.
+- **Result**: `result = "aabaa"`
+
+#### Efficiency
+1. **Time Complexity**: \(O(n)\), where \(n\) is the length of `s`, because the function iterates through the string once.
+2. **Space Complexity**: \(O(n)\), as we store the resulting "fancy" string in `result`, which can be up to \(n\) characters in size.
+
+This is how the `makeFancyString` function effectively removes minimal characters to satisfy the "fancy" condition while maintaining optimal time and space efficiency.
